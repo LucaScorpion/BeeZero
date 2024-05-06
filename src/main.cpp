@@ -10,6 +10,9 @@
 const String PAYLOAD_ONE_FILE = "one.txt";
 const String PAYLOAD_TWO_FILE = "two.txt";
 
+constexpr int PAYLOAD_ONE_PIN = 1;
+constexpr int PAYLOAD_TWO_PIN = 2;
+
 /*******
  * Run *
  *******/
@@ -33,8 +36,8 @@ String readPayloadScript(String file) {
     return contents;
 }
 
-void runPayload(int number) {
-    String script = readPayloadScript(number == 1 ? PAYLOAD_ONE_FILE : PAYLOAD_TWO_FILE);
+void runPayload(String file) {
+    String script = readPayloadScript(file);
     processScript(script);
 }
 
@@ -67,14 +70,21 @@ void runDev() {
  ***********/
 
 void setup() {
-    // TODO
-    int mode = 0;
+    // Initialize the pins.
+    pinMode(LED_BUILTIN, OUTPUT);
+    pinMode(PAYLOAD_ONE_PIN, INPUT_PULLDOWN);
+    pinMode(PAYLOAD_TWO_PIN, INPUT_PULLDOWN);
 
-    if (mode == 0) {
-        runDev();
+    // Read the payload mode and execute.
+    if (digitalRead(PAYLOAD_ONE_PIN) == HIGH) {
+        runPayload(PAYLOAD_ONE_FILE);
+    } else if (digitalRead(PAYLOAD_TWO_PIN) == HIGH) {
+        runPayload(PAYLOAD_TWO_FILE);
     } else {
-        runPayload(mode);
+        runDev();
     }
+
+    digitalWrite(LED_BUILTIN, HIGH);
 }
 
 void loop() {
