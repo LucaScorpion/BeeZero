@@ -34,7 +34,11 @@ void processScript(const String script) {
 
     while (true) {
         // Get the current line.
-        const String line = script.substring(lineStart, lineEnd < 0 ? script.length() : lineEnd);
+        // If there is no newline, read until the end of the script.
+        if (lineEnd < 0) {
+            lineEnd = script.length();
+        }
+        const String line = script.substring(lineStart, lineEnd);
 
         // Process the line, check for errors.
         if (!processLine(line)) {
@@ -42,7 +46,7 @@ void processScript(const String script) {
         }
 
         // Check if we have reached the end of the script.
-        if (lineEnd < 0) {
+        if (lineEnd >= script.length()) {
             break;
         }
 

@@ -3,8 +3,16 @@
 #include <SD.h>
 #include <BeeScript.cpp>
 
-const String payloadOneFile = "one.txt";
-const String payloadTwoFile = "two.txt";
+/*****************
+ * Configuration *
+ *****************/
+
+const String PAYLOAD_ONE_FILE = "one.txt";
+const String PAYLOAD_TWO_FILE = "two.txt";
+
+/*******
+ * Run *
+ *******/
 
 String readPayloadScript(String file) {
     // Initialize the SD card.
@@ -26,7 +34,7 @@ String readPayloadScript(String file) {
 }
 
 void runPayload(int number) {
-    String script = readPayloadScript(number == 1 ? payloadOneFile : payloadTwoFile);
+    String script = readPayloadScript(number == 1 ? PAYLOAD_ONE_FILE : PAYLOAD_TWO_FILE);
     processScript(script);
 }
 
@@ -35,6 +43,23 @@ void runDev() {
     Serial.begin(9600);
     delay(2000);
     Serial.println("Hello from BeeZero");
+
+    // Check if the SD card can be read.
+    if (!SD.begin()) {
+        Serial.println("SD initialization failed");
+    } else {
+        Serial.println("SD initialization done");
+
+        // Check if the payload scripts exist.
+        if (!SD.open(PAYLOAD_ONE_FILE, FILE_READ)) {
+            Serial.println("Payload one file not found: " + PAYLOAD_ONE_FILE);
+        }
+        if (!SD.open(PAYLOAD_TWO_FILE, FILE_READ)) {
+            Serial.println("Payload two file not found: " + PAYLOAD_ONE_FILE);
+        }
+    }
+
+    Serial.println("All checks done");
 }
 
 /***********
@@ -48,7 +73,7 @@ void setup() {
     if (mode == 0) {
         runDev();
     } else {
-        // runPayload(mode);
+        runPayload(mode);
     }
 }
 
