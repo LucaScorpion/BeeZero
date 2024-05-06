@@ -1,6 +1,6 @@
 # BeeZero
 
-BeeZero is an open-source keystroke injection USB stick.
+BeeZero is an Arduino-based keystroke injection USB stick.
 It's inspired by the [Hak5 USB Rubber Ducky],
 and meant as a tool for educational and training purposes.
 
