@@ -13,32 +13,40 @@ const String PAYLOAD_TWO_FILE = "two.txt";
 constexpr int PAYLOAD_ONE_PIN = 1;
 constexpr int PAYLOAD_TWO_PIN = 2;
 
+/*************
+ * Constants *
+ *************/
+
+typedef enum {
+    SUCCESS      = 0,
+    SD_ERROR     = 1,
+    FILE_ERROR   = 2,
+    SCRIPT_ERROR = 3,
+} Result;
+
 /*******
  * Run *
  *******/
 
-String readPayloadScript(String file) {
+
+Result runPayload(String file) {
     // Initialize the SD card.
     if (!SD.begin()) {
-        return "";
+        return SD_ERROR;
     }
 
     // Open the payload file.
     File dataFile = SD.open(file, FILE_READ);
     if (!dataFile) {
-        return "";
+        return FILE_ERROR;
     }
 
     // Read the file contents and close it.
-    String contents = dataFile.readString();
+    String script = dataFile.readString();
     dataFile.close();
 
-    return contents;
-}
-
-void runPayload(String file) {
-    String script = readPayloadScript(file);
-    processScript(script);
+    // Execute the script.
+    return processScript(script) ? SUCCESS : SCRIPT_ERROR;
 }
 
 void runDev() {
@@ -69,6 +77,8 @@ void runDev() {
  * Arduino *
  ***********/
 
+Result status = SUCCESS;
+
 void setup() {
     // Initialize the pins.
     pinMode(LED_BUILTIN, OUTPUT);
@@ -77,9 +87,9 @@ void setup() {
 
     // Read the payload mode and execute.
     if (digitalRead(PAYLOAD_ONE_PIN) == HIGH) {
-        runPayload(PAYLOAD_ONE_FILE);
+        status = runPayload(PAYLOAD_ONE_FILE);
     } else if (digitalRead(PAYLOAD_TWO_PIN) == HIGH) {
-        runPayload(PAYLOAD_TWO_FILE);
+        status = runPayload(PAYLOAD_TWO_FILE);
     } else {
         runDev();
     }

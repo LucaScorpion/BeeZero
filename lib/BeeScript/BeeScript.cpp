@@ -28,7 +28,7 @@ bool processLine(const String rawLine) {
     return fn->second(input);
 }
 
-void processScript(const String script) {
+bool processScript(const String script) {
     int lineStart = 0;
     int lineEnd = script.indexOf('\n');
 
@@ -42,7 +42,7 @@ void processScript(const String script) {
 
         // Process the line, check for errors.
         if (!processLine(line)) {
-            break;
+            return false;
         }
 
         // Check if we have reached the end of the script.
@@ -54,4 +54,6 @@ void processScript(const String script) {
         lineStart = lineEnd + 1;
         lineEnd = script.indexOf('\n', lineStart);
     }
+
+    return true;
 }
