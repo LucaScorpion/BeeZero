@@ -84,13 +84,13 @@ Result status = SUCCESS;
 void setup() {
     // Initialize the pins.
     pinMode(LED_BUILTIN, OUTPUT);
-    pinMode(PAYLOAD_ONE_PIN, INPUT_PULLDOWN);
-    pinMode(PAYLOAD_TWO_PIN, INPUT_PULLDOWN);
+    pinMode(PAYLOAD_ONE_PIN, INPUT_PULLUP);
+    pinMode(PAYLOAD_TWO_PIN, INPUT_PULLUP);
 
     // Read the payload mode and execute.
-    if (digitalRead(PAYLOAD_ONE_PIN) == HIGH) {
+    if (digitalRead(PAYLOAD_ONE_PIN) == LOW) {
         status = runPayload(PAYLOAD_ONE_FILE);
-    } else if (digitalRead(PAYLOAD_TWO_PIN) == HIGH) {
+    } else if (digitalRead(PAYLOAD_TWO_PIN) == LOW) {
         status = runPayload(PAYLOAD_TWO_FILE);
     } else {
         runDev();
