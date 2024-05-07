@@ -18,7 +18,17 @@ std::function<bool(String)> getCommand(const String &name) {
     return fn == commands.end() ? nullptr : fn->second;
 }
 
-bool commandHold(const String &input) {
+/**
+ * Call a function for each value in an input string.
+ * The input string is treated as space-separated values, multiple subsequent spaces are automatically skipped.
+ * If a value function call returns `false`, no further values are processed and the function returns `false`.
+ * If all values function calls return `true`, the function also returns `true`.
+ *
+ * @param input The command input.
+ * @param valueFn The function to call for each value.
+ * @return Whether all value function calls were successful.
+ */
+bool forEachValue(const String &input, const std::function<bool(String)> &valueFn) {
     int startIndex = 0;
 
     while (startIndex < input.length()) {
@@ -39,6 +49,17 @@ bool commandHold(const String &input) {
             continue;
         }
 
+        // Run the function with the value.
+        if (!valueFn(val)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool commandHold(const String &input) {
+    return forEachValue(input, [](const String &val) {
         // Get the key code, check if it is valid.
         const char key = getKey(val);
         if (key == 0) {
@@ -46,46 +67,26 @@ bool commandHold(const String &input) {
         }
 
         Keyboard.press(key);
-    }
-
-    return true;
+        return true;
+    });
 }
 
 bool commandRelease(const String &input) {
     if (input == "") {
         Keyboard.releaseAll();
-    } else {
-        // TODO: Currently this block is a duplicate of commandHold, that could probably be refactored.
-        int startIndex = 0;
-
-        while (startIndex < input.length()) {
-            // Get the end index, or set it to the string length if no space is found.
-            int endIndex = input.indexOf(' ', startIndex);
-            if (endIndex < 0) {
-                endIndex = input.length();
-            }
-
-            // Get the input part.
-            const String val = input.substring(startIndex, endIndex < 0 ? input.length() : endIndex);
-
-            // Already set the next starting point.
-            startIndex = endIndex + 1;
-
-            // Skip empty values.
-            if (val == "") {
-                continue;
-            }
-
-            // Get the key code, check if it is valid.
-            const char key = getKey(val);
-            if (key == 0) {
-                return false;
-            }
-
-            Keyboard.release(key);
-        }
+        return true;
     }
-    return true;
+
+    return forEachValue(input, [](const String &val) {
+        // Get the key code, check if it is valid.
+        const char key = getKey(val);
+        if (key == 0) {
+            return false;
+        }
+
+        Keyboard.release(key);
+        return true;
+    });
 }
 
 bool commandPress(const String &input) {
