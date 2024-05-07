@@ -78,7 +78,7 @@ inline bool commandPress(const String &input) {
     return commandHold(input) && commandRelease(input);
 }
 
-inline bool commandSleep(const String &input) {
+inline bool commandDelay(const String &input) {
     const long ms = input.toInt();
     delay(ms);
     return true;
@@ -95,6 +95,6 @@ const std::map<String, std::function<bool(String)>> commands = {
     {"hold", commandHold},
     {"press", commandPress},
     {"release", commandRelease},
-    {"sleep", commandSleep},
+    {"delay", commandDelay},
     {"type", commandType},
 };

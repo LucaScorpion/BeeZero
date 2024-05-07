@@ -57,14 +57,14 @@ release a b
 release
 ```
 
-### `sleep`
+### `delay`
 
-Make the script sleep for the given amount of milliseconds.
+Make the script delay (i.e. wait, sleep) for the given amount of milliseconds.
 The argument must be a valid number.
 
 ```
-# Sleep for 100 milliseconds.
-sleep 100
+# Delay for 100 milliseconds.
+delay 100
 ```
 
 ### `type`
