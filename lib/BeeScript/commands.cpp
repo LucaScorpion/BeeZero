@@ -1,25 +1,24 @@
 #include <Arduino.h>
+#include <Keyboard.h>
 #include <functional>
-#include <iostream>
 #include <map>
 
 inline bool commandHold(String input) {
-    std::cout << "hold " << input << std::endl;
+    // TODO
     return true;
 }
 
 inline bool commandPress(String input) {
-    std::cout << "press " << input << std::endl;
+    // TODO
     return true;
 }
 
 inline bool commandRelease(String input) {
     if (input == "") {
-        std::cout << "release all" << input << std::endl;
-        return true;
+        Keyboard.releaseAll();
+    } else {
+        // TODO
     }
-
-    std::cout << "release " << input << std::endl;
     return true;
 }
 
@@ -30,7 +29,9 @@ inline bool commandSleep(String input) {
 }
 
 inline bool commandType(String input) {
-    std::cout << "type " << input << std::endl;
+    for (int i = 0; i < input.length(); i++) {
+        Keyboard.write(input[i]);
+    }
     return true;
 }
 

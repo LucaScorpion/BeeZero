@@ -1,6 +1,7 @@
 #include <Arduino.h>
-#include <SPI.h>
+#include <Keyboard.h>
 #include <SD.h>
+#include <SPI.h>
 #include <BeeScript.cpp>
 
 /*****************
@@ -46,6 +47,7 @@ Result runPayload(String file) {
     dataFile.close();
 
     // Execute the script.
+    Keyboard.begin();
     return processScript(script) ? SUCCESS : SCRIPT_ERROR;
 }
 
