@@ -25,7 +25,7 @@ typedef enum {
     SCRIPT_ERROR = 3,
 } Result;
 
-Result runPayload(String file) {
+Result runPayload(const String &file) {
     // Initialize the SD card.
     if (!SD.begin()) {
         return SD_ERROR;
@@ -38,7 +38,7 @@ Result runPayload(String file) {
     }
 
     // Read the file contents and close it.
-    String script = dataFile.readString();
+    const String script = dataFile.readString();
     dataFile.close();
 
     // Execute the script.

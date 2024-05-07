@@ -1,8 +1,7 @@
 #include "Arduino.h"
 #include "commands.cpp"
 
-bool processLine(const String rawLine) {
-    String line = rawLine;
+bool processLine(String line) {
     line.trim();
 
     // Check if the line is empty or a comment.
@@ -28,7 +27,7 @@ bool processLine(const String rawLine) {
     return fn->second(input);
 }
 
-bool processScript(const String script) {
+bool processScript(const String &script) {
     int lineStart = 0;
     int lineEnd = script.indexOf('\n');
 
