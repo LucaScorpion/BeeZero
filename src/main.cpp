@@ -14,9 +14,9 @@ const String PAYLOAD_TWO_FILE = "two.txt";
 constexpr int PAYLOAD_ONE_PIN = 1;
 constexpr int PAYLOAD_TWO_PIN = 2;
 
-/*************
- * Constants *
- *************/
+/*******
+ * Run *
+ *******/
 
 typedef enum {
     SUCCESS      = 0,
@@ -24,11 +24,6 @@ typedef enum {
     FILE_ERROR   = 2,
     SCRIPT_ERROR = 3,
 } Result;
-
-/*******
- * Run *
- *******/
-
 
 Result runPayload(String file) {
     // Initialize the SD card.
