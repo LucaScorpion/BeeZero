@@ -1,7 +1,9 @@
-#include "Arduino.h"
-#include "commands.cpp"
+#include "BeeScript.h"
+#include "commands.h"
+#include <Arduino.h>
+#include <functional>
 
-bool processLine(String line) {
+bool BeeScript::processLine(String line) {
     line.trim();
 
     // Check if the line is empty or a comment.
@@ -18,16 +20,16 @@ bool processLine(String line) {
     input.trim();
 
     // Get the command function, check if it exists.
-    const auto fn = commands.find(command);
-    if (fn == commands.end()) {
+    const std::function<bool(String)> fn = getCommand(command);
+    if (!fn) {
         return false;
     }
 
     // Execute the command.
-    return fn->second(input);
+    return fn(input);
 }
 
-bool processScript(const String &script) {
+bool BeeScript::processScript(const String &script) {
     int lineStart = 0;
     int lineEnd = script.indexOf('\n');
 

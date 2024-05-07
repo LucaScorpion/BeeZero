@@ -1,10 +1,24 @@
+#include "commands.h"
+#include "keys.h"
 #include <Arduino.h>
 #include <Keyboard.h>
-#include <keys.cpp>
 #include <functional>
 #include <map>
 
-inline bool commandHold(const String &input) {
+const std::map<String, std::function<bool(String)> > commands = {
+    {"delay", commandDelay},
+    {"hold", commandHold},
+    {"press", commandPress},
+    {"release", commandRelease},
+    {"type", commandType},
+};
+
+std::function<bool(String)> getCommand(const String &name) {
+    const auto fn = commands.find(name);
+    return fn == commands.end() ? nullptr : fn->second;
+}
+
+bool commandHold(const String &input) {
     int startIndex = 0;
 
     while (startIndex < input.length()) {
@@ -37,7 +51,7 @@ inline bool commandHold(const String &input) {
     return true;
 }
 
-inline bool commandRelease(const String &input) {
+bool commandRelease(const String &input) {
     if (input == "") {
         Keyboard.releaseAll();
     } else {
@@ -74,27 +88,19 @@ inline bool commandRelease(const String &input) {
     return true;
 }
 
-inline bool commandPress(const String &input) {
+bool commandPress(const String &input) {
     return commandHold(input) && commandRelease(input);
 }
 
-inline bool commandDelay(const String &input) {
+bool commandDelay(const String &input) {
     const long ms = input.toInt();
     delay(ms);
     return true;
 }
 
-inline bool commandType(const String &input) {
+bool commandType(const String &input) {
     for (int i = 0; i < input.length(); i++) {
         Keyboard.write(input[i]);
     }
     return true;
 }
-
-const std::map<String, std::function<bool(String)>> commands = {
-    {"hold", commandHold},
-    {"press", commandPress},
-    {"release", commandRelease},
-    {"delay", commandDelay},
-    {"type", commandType},
-};

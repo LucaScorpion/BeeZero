@@ -2,7 +2,7 @@
 #include <Keyboard.h>
 #include <SD.h>
 #include <SPI.h>
-#include <BeeScript.cpp>
+#include "BeeScript.h"
 
 /*****************
  * Configuration *
@@ -19,9 +19,9 @@ constexpr int PAYLOAD_TWO_PIN = 2;
  *******/
 
 typedef enum {
-    SUCCESS      = 0,
-    SD_ERROR     = 1,
-    FILE_ERROR   = 2,
+    SUCCESS = 0,
+    SD_ERROR = 1,
+    FILE_ERROR = 2,
     SCRIPT_ERROR = 3,
 } Result;
 
@@ -43,7 +43,7 @@ Result runPayload(const String &file) {
 
     // Execute the script.
     Keyboard.begin();
-    return processScript(script) ? SUCCESS : SCRIPT_ERROR;
+    return BeeScript::processScript(script) ? SUCCESS : SCRIPT_ERROR;
 }
 
 void runDebug() {

@@ -1,3 +1,4 @@
+#include "keys.h"
 #include <Arduino.h>
 #include <Keyboard.h>
 #include <map>
