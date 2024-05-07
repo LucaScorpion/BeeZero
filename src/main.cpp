@@ -51,25 +51,24 @@ Result runPayload(String file) {
     return processScript(script) ? SUCCESS : SCRIPT_ERROR;
 }
 
-void runDev() {
+void runDebug() {
     // Begin serial output, wait a bit to ensure the monitor is ready.
     Serial.begin(9600);
     delay(2000);
     Serial.println("Hello from BeeZero");
 
     // Check if the SD card can be read.
+    Serial.print("SD initialization... ");
     if (!SD.begin()) {
-        Serial.println("SD initialization failed");
+        Serial.println("failed");
     } else {
-        Serial.println("SD initialization done");
+        Serial.println("done");
 
         // Check if the payload scripts exist.
-        if (!SD.open(PAYLOAD_ONE_FILE, FILE_READ)) {
-            Serial.println("Payload one file not found: " + PAYLOAD_ONE_FILE);
-        }
-        if (!SD.open(PAYLOAD_TWO_FILE, FILE_READ)) {
-            Serial.println("Payload two file not found: " + PAYLOAD_ONE_FILE);
-        }
+        Serial.print("Payload one file (" + PAYLOAD_ONE_FILE + ")... ");
+        Serial.println(SD.exists(PAYLOAD_ONE_FILE) ? "exists" : "not found");
+        Serial.print("Payload two file (" + PAYLOAD_TWO_FILE + ")... ");
+        Serial.println(SD.exists(PAYLOAD_TWO_FILE) ? "exists" : "not found");
     }
 
     Serial.println("All checks done");
@@ -93,7 +92,7 @@ void setup() {
     } else if (digitalRead(PAYLOAD_TWO_PIN) == LOW) {
         status = runPayload(PAYLOAD_TWO_FILE);
     } else {
-        runDev();
+        runDebug();
     }
 
     digitalWrite(LED_BUILTIN, HIGH);
