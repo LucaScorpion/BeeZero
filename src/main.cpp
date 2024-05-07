@@ -94,6 +94,18 @@ void setup() {
 }
 
 void loop() {
-    // Do nothing.
-    delay(1);
+    // On success, do nothing.
+    if (status == SUCCESS) {
+        delay(1);
+        return;
+    }
+
+    // If an error occurred, blink.
+    for (int i = 0; i < status; i++) {
+        digitalWrite(LED_BUILTIN, HIGH);
+        delay(100);
+        digitalWrite(LED_BUILTIN, LOW);
+        delay(100);
+    }
+    delay(500);
 }
