@@ -4,7 +4,7 @@
 
 // See also: https://www.arduino.cc/reference/en/language/functions/usb/keyboard/keyboardmodifiers
 
-const std::map<String, int> keys = {
+const std::map<String, char> keys = {
     // Modifiers
     {"ctrl", KEY_LEFT_CTRL},
     {"shift", KEY_LEFT_SHIFT},
@@ -86,3 +86,16 @@ const std::map<String, int> keys = {
     {"f23", KEY_F23},
     {"f24", KEY_F24},
 };
+
+char getKey(String value) {
+    if (value.length() == 1) {
+        return value[0];
+    }
+
+    const auto mapped = keys.find(value);
+    if (mapped != keys.end()) {
+        return mapped->second;
+    }
+
+    return 0;
+}
