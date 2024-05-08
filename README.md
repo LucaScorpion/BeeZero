@@ -31,7 +31,14 @@ When one of those pins is low, the board will run the respective payload.
 
 ![Wiring diagram](images/wiring.png)
 
-TODO: USB pads on the back
+Connecting the Arduino to a computer can be done by using the USB port,
+or by soldering a USB connector directly to it.
+The MKR Zero has some additional pads on the back which can be used for this:
+
+![Backside wiring diagram](images/wiring-back.png)
+
+Note that the USB data pads are not documented in the pinout diagrams,
+but these can be found in the wiring schematics.
 
 ## Payloads
 
