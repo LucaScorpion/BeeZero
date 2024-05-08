@@ -26,11 +26,11 @@ and if any error occurs, script execution is stopped.
 Hold one or more keys.
 
 ```
-# Hold the a key.
-hold a
+# Hold the shift key.
+hold shift
 
-# Hold the b and c keys.
-hold b c
+# Hold the ctrl and c keys.
+hold ctrl c
 ```
 
 ### `press`
@@ -50,8 +50,8 @@ Release one or more keys.
 If no arguments are given, all held keys are released.
 
 ```
-# Release the a and b keys.
-release a b
+# Release the shift and b keys.
+release shift b
 
 # Release all keys.
 release
@@ -78,3 +78,10 @@ type https://example.com
 # This will type a lowercase and uppercase a. 
 type aA
 ```
+
+## Keys
+
+All available key names can be found in [lib/BeeScript/keys.cpp](lib/BeeScript/keys.cpp).
+Single characters all map to their own key.
+Note that some keys have multiple names,
+e.g. `super`, `windows`, and `command` all refer to the same key.
