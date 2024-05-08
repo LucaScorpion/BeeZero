@@ -79,6 +79,18 @@ type https://example.com
 type aA
 ```
 
+### `typeln`
+
+`type` a string, followed by pressing enter.
+
+```
+typeln Hello world
+
+# Is the same as:
+type Hello world
+press enter
+```
+
 ## Keys
 
 All available key names can be found in [lib/BeeScript/keys.cpp](lib/BeeScript/keys.cpp).

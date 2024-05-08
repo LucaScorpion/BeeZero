@@ -93,12 +93,20 @@ bool commandType(const String &input) {
     return true;
 }
 
+bool commandTypeLn(const String &input) {
+    const bool result = commandType(input);
+    Keyboard.press(KEY_RETURN);
+    Keyboard.release(KEY_RETURN);
+    return result;
+}
+
 const std::map<String, std::function<bool(String)> > commands = {
     {"delay", commandDelay},
     {"hold", commandHold},
     {"press", commandPress},
     {"release", commandRelease},
     {"type", commandType},
+    {"typeln", commandTypeLn},
 };
 
 std::function<bool(String)> getCommand(const String &name) {
