@@ -5,19 +5,6 @@
 #include <functional>
 #include <map>
 
-const std::map<String, std::function<bool(String)> > commands = {
-    {"delay", commandDelay},
-    {"hold", commandHold},
-    {"press", commandPress},
-    {"release", commandRelease},
-    {"type", commandType},
-};
-
-std::function<bool(String)> getCommand(const String &name) {
-    const auto fn = commands.find(name);
-    return fn == commands.end() ? nullptr : fn->second;
-}
-
 /**
  * Call a function for each value in an input string.
  * The input string is treated as space-separated values, multiple subsequent spaces are automatically skipped.
@@ -104,4 +91,17 @@ bool commandType(const String &input) {
         Keyboard.write(input[i]);
     }
     return true;
+}
+
+const std::map<String, std::function<bool(String)> > commands = {
+    {"delay", commandDelay},
+    {"hold", commandHold},
+    {"press", commandPress},
+    {"release", commandRelease},
+    {"type", commandType},
+};
+
+std::function<bool(String)> getCommand(const String &name) {
+    const auto fn = commands.find(name);
+    return fn == commands.end() ? nullptr : fn->second;
 }
