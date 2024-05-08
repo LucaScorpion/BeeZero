@@ -46,7 +46,9 @@ Result runPayload(const String &file) {
     return BeeScript::processScript(script) ? SUCCESS : SCRIPT_ERROR;
 }
 
-void runDebug() {
+Result runDebug() {
+    Result status = SUCCESS;
+
     // Begin serial output, wait a bit to ensure the monitor is ready.
     Serial.begin(9600);
     delay(2000);
@@ -56,17 +58,25 @@ void runDebug() {
     Serial.print("SD initialization... ");
     if (!SD.begin()) {
         Serial.println("failed");
+        status = SD_ERROR;
     } else {
         Serial.println("done");
 
         // Check if the payload scripts exist.
+        const bool oneExists = SD.exists(PAYLOAD_ONE_FILE);
         Serial.print("Payload one file (" + PAYLOAD_ONE_FILE + ")... ");
-        Serial.println(SD.exists(PAYLOAD_ONE_FILE) ? "exists" : "not found");
+        Serial.println(oneExists ? "exists" : "not found");
+        const bool twoExists = SD.exists(PAYLOAD_TWO_FILE);
         Serial.print("Payload two file (" + PAYLOAD_TWO_FILE + ")... ");
-        Serial.println(SD.exists(PAYLOAD_TWO_FILE) ? "exists" : "not found");
+        Serial.println(twoExists ? "exists" : "not found");
+
+        if (!oneExists || !twoExists) {
+            status = FILE_ERROR;
+        }
     }
 
     Serial.println("All checks done");
+    return status;
 }
 
 /***********
@@ -87,7 +97,7 @@ void setup() {
     } else if (digitalRead(PAYLOAD_TWO_PIN) == LOW) {
         status = runPayload(PAYLOAD_TWO_FILE);
     } else {
-        runDebug();
+        status = runDebug();
     }
 
     digitalWrite(LED_BUILTIN, HIGH);
@@ -103,9 +113,9 @@ void loop() {
     // If an error occurred, blink.
     for (int i = 0; i < status; i++) {
         digitalWrite(LED_BUILTIN, HIGH);
-        delay(100);
+        delay(200);
         digitalWrite(LED_BUILTIN, LOW);
-        delay(100);
+        delay(200);
     }
-    delay(500);
+    delay(800);
 }

@@ -51,7 +51,19 @@ so the switch should be set to the desired position _before_ plugging in the dev
 
 ## Troubleshooting
 
-TODO: blinking codes
+To check if the BeeZero and SD card are properly set up you can connect it to a computer in mode 0 (no payload).
+It will run some checks, and if everything is okay, the built-in LED will turn on.
+It will also output debug information over serial, about the SD connection and payload files.
+
+After running a payload, the LED will also indicate if the run was successful.
+If it was, it will be on continuously.
+Otherwise, if an error occurred, it will blink based on the type of error.
+
+| Number of blinks | Error                                 | Solution                                                                          |
+|------------------|---------------------------------------|-----------------------------------------------------------------------------------|
+| 1                | The SD card could not be initialized. | Check if the SD card is inserted and formatted properly (as FAT).                 |
+| 2                | The payload file could not be read.   | Check if the right payload file exists. Note that the filename is case sensitive. |
+| 3                | A payload script error occurred.      | Check if the script is valid.                                                     |
 
 [Hak5 USB Rubber Ducky]: https://docs.hak5.org/hak5-usb-rubber-ducky
 
