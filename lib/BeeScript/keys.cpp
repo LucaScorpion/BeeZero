@@ -12,12 +12,14 @@ const std::map<String, char> keys = {
     {"alt", KEY_LEFT_ALT},
     {"option", KEY_LEFT_ALT},
     {"super", KEY_LEFT_GUI},
+    {"windows", KEY_LEFT_GUI},
     {"command", KEY_LEFT_GUI},
     {"right-ctrl", KEY_RIGHT_CTRL},
     {"right-shift", KEY_RIGHT_SHIFT},
     {"altgr", KEY_RIGHT_ALT},
     {"option", KEY_RIGHT_ALT},
     {"right-super", KEY_RIGHT_GUI},
+    {"right-windows", KEY_RIGHT_GUI},
     {"right-command", KEY_RIGHT_GUI},
 
     // Misc
