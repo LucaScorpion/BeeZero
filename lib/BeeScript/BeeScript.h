@@ -5,10 +5,18 @@
 
 class BeeScript {
 private:
-    static bool processLine(String line);
+    const String &script;
+
+    explicit BeeScript(const String &script);
+
+    bool execute();
+
+    bool processLine(String line);
+
+    bool assignVariable(const String &variable, String input);
 
 public:
-    static bool processScript(const String &script);
+    static bool run(const String &script);
 };
 
 #endif

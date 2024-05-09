@@ -43,7 +43,7 @@ Result runPayload(const String &file) {
 
     // Execute the script.
     Keyboard.begin();
-    return BeeScript::processScript(script) ? SUCCESS : SCRIPT_ERROR;
+    return BeeScript::run(script) ? SUCCESS : SCRIPT_ERROR;
 }
 
 Result runDebug() {

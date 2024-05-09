@@ -3,33 +3,17 @@
 #include <Arduino.h>
 #include <functional>
 
-bool BeeScript::processLine(String line) {
-    line.trim();
-
-    // Check if the line is empty or a comment.
-    if (line.length() == 0 || line[0] == '#') {
-        return true;
-    }
-
-    // Get the command from the line.
-    const int spaceIndex = line.indexOf(' ');
-    const String command = line.substring(0, spaceIndex < 0 ? line.length() : spaceIndex);
-
-    // Get the rest of the line as the command input.
-    String input = spaceIndex < 0 ? "" : line.substring(spaceIndex + 1);
-    input.trim();
-
-    // Get the command function, check if it exists.
-    const std::function<bool(String)> fn = getCommand(command);
-    if (!fn) {
-        return false;
-    }
-
-    // Execute the command.
-    return fn(input);
+bool BeeScript::run(const String &script) {
+    const auto bs = new BeeScript(script);
+    const bool result = bs->execute();
+    delete bs;
+    return result;
 }
 
-bool BeeScript::processScript(const String &script) {
+BeeScript::BeeScript(const String &script): script(script) {
+}
+
+bool BeeScript::execute() {
     int lineStart = 0;
     int lineEnd = script.indexOf('\n');
 
@@ -56,5 +40,41 @@ bool BeeScript::processScript(const String &script) {
         lineEnd = script.indexOf('\n', lineStart);
     }
 
+    return true;
+}
+
+bool BeeScript::processLine(String line) {
+    line.trim();
+
+    // Check if the line is empty or a comment.
+    if (line.length() == 0 || line[0] == '#') {
+        return true;
+    }
+
+    // Get the command from the line.
+    const int spaceIndex = line.indexOf(' ');
+    const String firstPart = line.substring(0, spaceIndex < 0 ? line.length() : spaceIndex);
+
+    // Get the rest of the line as the command input.
+    String rest = spaceIndex < 0 ? "" : line.substring(spaceIndex + 1);
+    rest.trim();
+
+    // Check if the command is a variable assignment.
+    if (firstPart[0] == '$') {
+        return assignVariable(firstPart, rest);
+    }
+
+    // Get the command function, check if it exists.
+    const std::function<bool(String)> fn = getCommand(firstPart);
+    if (!fn) {
+        return false;
+    }
+
+    // Execute the command.
+    return fn(rest);
+}
+
+bool BeeScript::assignVariable(const String &variable, String input) {
+    // TODO
     return true;
 }
