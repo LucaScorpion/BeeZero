@@ -86,15 +86,15 @@ bool commandDelay(const String &input) {
     return true;
 }
 
-bool commandType(const String &input) {
+bool commandWrite(const String &input) {
     for (int i = 0; i < input.length(); i++) {
         Keyboard.write(input[i]);
     }
     return true;
 }
 
-bool commandTypeLn(const String &input) {
-    const bool result = commandType(input);
+bool commandWriteLn(const String &input) {
+    const bool result = commandWrite(input);
     Keyboard.press(KEY_RETURN);
     Keyboard.release(KEY_RETURN);
     return result;
@@ -105,8 +105,8 @@ const std::map<String, std::function<bool(String)> > commands = {
     {"hold", commandHold},
     {"press", commandPress},
     {"release", commandRelease},
-    {"type", commandType},
-    {"typeln", commandTypeLn},
+    {"write", commandWrite},
+    {"writeln", commandWriteLn},
 };
 
 std::function<bool(String)> getCommand(const String &name) {

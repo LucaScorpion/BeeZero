@@ -67,27 +67,27 @@ The argument must be a valid number.
 delay 100
 ```
 
-### `type`
+### `write`
 
-Type a string, pressing and releasing each character key.
+Write a string, pressing and releasing each character key.
 For capital letters, the shift key is held automatically while sending the key.
 
 ```
-type https://example.com
+write https://example.com
 
 # This will type a lowercase and uppercase a. 
-type aA
+write aA
 ```
 
-### `typeln`
+### `writeln`
 
-`type` a string, followed by pressing enter.
+Write a string, followed by pressing enter.
 
 ```
-typeln Hello world
+writeln Hello world
 
 # Is the same as:
-type Hello world
+write Hello world
 press enter
 ```
 
