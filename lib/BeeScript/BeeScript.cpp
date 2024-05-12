@@ -70,8 +70,8 @@ bool BeeScript::processLine(String line) {
         return false;
     }
 
-    // Execute the command.
-    return fn(rest);
+    // Resolve the input, execute the command.
+    return fn(resolveInput(rest));
 }
 
 bool BeeScript::assignVariable(const String &name, String input) {
@@ -82,10 +82,15 @@ bool BeeScript::assignVariable(const String &name, String input) {
         return false;
     }
 
-    // Get the new value, trim it.
-    String value = input.substring(1);
-    value.trim();
-
-    context[name] = value;
+    context[name] = resolveInput(input.substring(1));
     return true;
+}
+
+String BeeScript::resolveInput(String input) {
+    input.trim();
+
+    // TODO
+    // Can we use the forEachValue func here?
+
+    return input;
 }
