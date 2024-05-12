@@ -10,7 +10,7 @@ bool BeeScript::run(const String &script) {
     return result;
 }
 
-BeeScript::BeeScript(const String &script): script(script), context() {
+BeeScript::BeeScript(const String &script): script(script) {
 }
 
 bool BeeScript::execute() {

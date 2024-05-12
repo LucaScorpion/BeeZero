@@ -8,7 +8,7 @@ class BeeScript {
 private:
     const String &script;
 
-    std::map<String, String> &context;
+    std::map<String, String> context;
 
     explicit BeeScript(const String &script);
 
