@@ -2,10 +2,13 @@
 #define BEESCRIPT_H
 
 #include <Arduino.h>
+#include <map>
 
 class BeeScript {
 private:
     const String &script;
+
+    std::map<String, String> &context;
 
     explicit BeeScript(const String &script);
 
@@ -13,7 +16,7 @@ private:
 
     bool processLine(String line);
 
-    bool assignVariable(const String &variable, String input);
+    bool assignVariable(const String &name, String input);
 
 public:
     static bool run(const String &script);

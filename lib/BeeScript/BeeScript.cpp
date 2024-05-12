@@ -74,7 +74,18 @@ bool BeeScript::processLine(String line) {
     return fn(rest);
 }
 
-bool BeeScript::assignVariable(const String &variable, String input) {
-    // TODO
+bool BeeScript::assignVariable(const String &name, String input) {
+    input.trim();
+
+    // Check if the input starts with an equals sign.
+    if (input.indexOf('=') != 0) {
+        return false;
+    }
+
+    // Get the new value, trim it.
+    String value = input.substring(1);
+    value.trim();
+
+    context[name] = value;
     return true;
 }
