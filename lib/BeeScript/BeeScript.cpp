@@ -1,5 +1,6 @@
 #include "BeeScript.h"
 #include "commands.h"
+#include "utils.h"
 #include <Arduino.h>
 #include <functional>
 
@@ -86,11 +87,18 @@ bool BeeScript::assignVariable(const String &name, String input) {
     return true;
 }
 
-String BeeScript::resolveInput(String input) {
-    input.trim();
-
+String BeeScript::resolveInput(const String &input) {
     // TODO
     // Can we use the forEachValue func here?
 
-    return input;
+    String result = "";
+
+    forEachValue(input, [&](const String &val) {
+        result = "as";
+
+        // The return value is unused here, so just return true.
+        return true;
+    });
+
+    return result;
 }
