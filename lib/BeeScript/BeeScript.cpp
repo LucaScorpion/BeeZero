@@ -91,7 +91,7 @@ String BeeScript::resolveInput(const String &input) {
     return input;
 
     // TODO
-    
+
     // Can we use the forEachValue func here?
 
     String result = "";
