@@ -52,6 +52,37 @@ bool BeeScript::processLine(String line) {
         return true;
     }
 
+    // Check if the line is a variable assignment.
+    if (line[0] == '$') {
+        return processAssignVariable(line);
+    }
+
+    return processCommand(line);
+}
+
+bool BeeScript::processAssignVariable(const String &line) {
+    // We already know the line starts with '$', so start at index 1.
+    const String varName = readVariableName(line, 1);
+
+    // Check if we have a valid variable name.
+    if (varName.length() == 0) {
+        return false;
+    }
+
+    // Get the rest of the line, this should start with a '='.
+    String rest = line.substring(varName.length() + 1);
+    rest.trim();
+    if (!rest.startsWith("=")) {
+        return false;
+    }
+
+    // Resolve the value, store it in the context.
+    context[varName] = resolveInput(rest.substring(1));
+
+    return true;
+}
+
+bool BeeScript::processCommand(const String &line) {
     // Get the command from the line.
     const int spaceIndex = line.indexOf(' ');
     const String firstPart = line.substring(0, spaceIndex < 0 ? line.length() : spaceIndex);
@@ -59,11 +90,6 @@ bool BeeScript::processLine(String line) {
     // Get the rest of the line as the command input.
     String rest = spaceIndex < 0 ? "" : line.substring(spaceIndex + 1);
     rest.trim();
-
-    // Check if the command is a variable assignment.
-    if (firstPart[0] == '$') {
-        return assignVariable(firstPart, rest);
-    }
 
     // Get the command function, check if it exists.
     const std::function<bool(String)> fn = getCommand(firstPart);
@@ -75,16 +101,24 @@ bool BeeScript::processLine(String line) {
     return false;
 }
 
-bool BeeScript::assignVariable(const String &name, String input) {
-    input.trim();
+String BeeScript::readVariableName(const String &input, const int startIndex = 0) {
+    int endIndex = startIndex;
+    for (int i = startIndex; i < input.length(); i++) {
+        // Starting characters can be a letter or underscore.
+        const char c = input[i];
+        if (isAlpha(c) || c == '_') {
+            continue;
+        }
 
-    // Check if the input starts with an equals sign.
-    if (input.indexOf('=') != 0) {
-        return false;
+        // Non-starting characters can also be a number.
+        if (i > startIndex && isDigit(c)) {
+            continue;
+        }
+
+        break;
     }
 
-    context[name] = resolveInput(input.substring(1));
-    return true;
+    return input.substring(startIndex, endIndex);
 }
 
 String BeeScript::resolveInput(const String &input) {

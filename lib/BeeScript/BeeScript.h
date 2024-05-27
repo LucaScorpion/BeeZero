@@ -16,9 +16,13 @@ private:
 
     bool processLine(String line);
 
-    bool assignVariable(const String &name, String input);
+    bool processAssignVariable(const String &line);
+
+    bool processCommand(const String &line);
 
     String resolveInput(const String &input);
+
+    String readVariableName(const String &input, int startIndex);
 
 public:
     static bool run(const String &script);
