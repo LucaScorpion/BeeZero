@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <Keyboard.h>
 #include <SD.h>
-#include <SPI.h>
 #include "BeeScript.h"
 
 /*****************
@@ -18,12 +17,12 @@ constexpr int PAYLOAD_TWO_PIN = 2;
  * Run *
  *******/
 
-typedef enum {
+enum Result {
     SUCCESS = 0,
     SD_ERROR = 1,
     FILE_ERROR = 2,
     SCRIPT_ERROR = 3,
-} Result;
+};
 
 Result runPayload(const String &file) {
     // Initialize the SD card.
