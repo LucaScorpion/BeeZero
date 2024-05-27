@@ -18,7 +18,7 @@ private:
 
     bool assignVariable(const String &name, String input);
 
-    String resolveInput(String input);
+    String resolveInput(const String &input);
 
 public:
     static bool run(const String &script);

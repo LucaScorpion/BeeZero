@@ -11,7 +11,7 @@ bool BeeScript::run(const String &script) {
     return result;
 }
 
-BeeScript::BeeScript(const String &script): script(script) {
+BeeScript::BeeScript(const String &script) : script(script) {
 }
 
 bool BeeScript::execute() {
@@ -67,12 +67,12 @@ bool BeeScript::processLine(String line) {
 
     // Get the command function, check if it exists.
     const std::function<bool(String)> fn = getCommand(firstPart);
-    if (!fn) {
-        return false;
+    if (fn) {
+        // Resolve the input, execute the command.
+        return fn(resolveInput(rest));
     }
 
-    // Resolve the input, execute the command.
-    return fn(resolveInput(rest));
+    return false;
 }
 
 bool BeeScript::assignVariable(const String &name, String input) {
@@ -88,13 +88,16 @@ bool BeeScript::assignVariable(const String &name, String input) {
 }
 
 String BeeScript::resolveInput(const String &input) {
+    return input;
+
     // TODO
+    
     // Can we use the forEachValue func here?
 
     String result = "";
 
     forEachValue(input, [&](const String &val) {
-        result = "as";
+        result = "";
 
         // The return value is unused here, so just return true.
         return true;
