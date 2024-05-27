@@ -5,6 +5,7 @@
 #include <functional>
 
 bool BeeScript::run(const String &script) {
+    // Note that we can't use `std::make_unique` here instead of `new` and `delete`, since that's not in C++11.
     const auto bs = new BeeScript(script);
     const bool result = bs->execute();
     delete bs;
