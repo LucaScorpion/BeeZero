@@ -10,8 +10,15 @@
 const String PAYLOAD_ONE_FILE = "one.txt";
 const String PAYLOAD_TWO_FILE = "two.txt";
 
+#ifndef PAYLOAD_ONE_PIN
 constexpr int PAYLOAD_ONE_PIN = 1;
+#endif
+#ifndef PAYLOAD_TWO_PIN
 constexpr int PAYLOAD_TWO_PIN = 2;
+#endif
+#ifndef BUTTON_PIN
+constexpr int BUTTON_PIN = 3;
+#endif
 
 /*******
  * Run *
@@ -89,6 +96,7 @@ void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     pinMode(PAYLOAD_ONE_PIN, INPUT_PULLUP);
     pinMode(PAYLOAD_TWO_PIN, INPUT_PULLUP);
+    pinMode(BUTTON_PIN, INPUT_PULLUP);
 
     // Read the payload mode and execute.
     if (digitalRead(PAYLOAD_ONE_PIN) == LOW) {
@@ -99,7 +107,7 @@ void setup() {
         status = runDebug();
     }
 
-    digitalWrite(LED_BUILTIN, HIGH);
+    digitalWrite(LED_BUILTIN, LOW);
 }
 
 void loop() {
@@ -111,9 +119,9 @@ void loop() {
 
     // If an error occurred, blink.
     for (int i = 0; i < status; i++) {
-        digitalWrite(LED_BUILTIN, HIGH);
-        delay(200);
         digitalWrite(LED_BUILTIN, LOW);
+        delay(200);
+        digitalWrite(LED_BUILTIN, HIGH);
         delay(200);
     }
     delay(800);
