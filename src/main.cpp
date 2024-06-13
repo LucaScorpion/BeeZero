@@ -24,7 +24,7 @@ constexpr int BUTTON_PIN = 3;
  * Run *
  *******/
 
-enum Result {
+enum class Result {
     SUCCESS = 0,
     SD_ERROR = 1,
     FILE_ERROR = 2,
@@ -34,13 +34,13 @@ enum Result {
 Result runPayload(const String &file) {
     // Initialize the SD card.
     if (!SD.begin()) {
-        return SD_ERROR;
+        return Result::SD_ERROR;
     }
 
     // Open the payload file.
     File dataFile = SD.open(file, FILE_READ);
     if (!dataFile) {
-        return FILE_ERROR;
+        return Result::FILE_ERROR;
     }
 
     // Read the file contents and close it.
@@ -49,11 +49,11 @@ Result runPayload(const String &file) {
 
     // Execute the script.
     Keyboard.begin();
-    return BeeScript::run(script) ? SUCCESS : SCRIPT_ERROR;
+    return BeeScript::run(script) ? Result::SUCCESS : Result::SCRIPT_ERROR;
 }
 
 Result runDebug() {
-    Result status = SUCCESS;
+    Result status = Result::SUCCESS;
 
     // Begin serial output, wait a bit to ensure the monitor is ready.
     Serial.begin(9600);
@@ -64,7 +64,7 @@ Result runDebug() {
     Serial.print("SD initialization... ");
     if (!SD.begin()) {
         Serial.println("failed");
-        status = SD_ERROR;
+        status = Result::SD_ERROR;
     } else {
         Serial.println("done");
 
@@ -77,7 +77,7 @@ Result runDebug() {
         Serial.println(twoExists ? "exists" : "not found");
 
         if (!oneExists || !twoExists) {
-            status = FILE_ERROR;
+            status = Result::FILE_ERROR;
         }
     }
 
@@ -89,7 +89,7 @@ Result runDebug() {
  * Arduino *
  ***********/
 
-Result status = SUCCESS;
+Result status = Result::SUCCESS;
 
 void setup() {
     // Initialize the pins.
@@ -112,13 +112,14 @@ void setup() {
 
 void loop() {
     // On success, do nothing.
-    if (status == SUCCESS) {
+    if (status == Result::SUCCESS) {
         delay(1);
         return;
     }
 
     // If an error occurred, blink.
-    for (int i = 0; i < status; i++) {
+    const int blinks = (int) status;
+    for (int i = 0; i < blinks; i++) {
         digitalWrite(LED_BUILTIN, LOW);
         delay(200);
         digitalWrite(LED_BUILTIN, HIGH);
