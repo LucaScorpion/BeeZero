@@ -91,6 +91,15 @@ Result runDebug() {
 
 Result status = Result::SUCCESS;
 
+void led(const bool on) {
+#ifndef LED_INVERTED
+    const int val = on ? HIGH : LOW;
+#else
+    const int val = on ? LOW : HIGH;
+#endif
+    digitalWrite(LED_BUILTIN, val);
+}
+
 void setup() {
     // Initialize the pins.
     pinMode(LED_BUILTIN, OUTPUT);
@@ -107,7 +116,7 @@ void setup() {
         status = runDebug();
     }
 
-    digitalWrite(LED_BUILTIN, LOW);
+    led(true);
 }
 
 void loop() {
@@ -120,9 +129,9 @@ void loop() {
     // If an error occurred, blink.
     const int blinks = (int) status;
     for (int i = 0; i < blinks; i++) {
-        digitalWrite(LED_BUILTIN, LOW);
+        led(true);
         delay(200);
-        digitalWrite(LED_BUILTIN, HIGH);
+        led(false);
         delay(200);
     }
     delay(800);

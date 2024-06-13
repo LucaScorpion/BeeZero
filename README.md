@@ -11,14 +11,15 @@ For the scripting documentation, see [BeeScript.md](BeeScript.md).
 
 ## Hardware and Wiring
 
-The BeeZero project is designed for the [Arduino MKR Zero],
-but can run on any Arduino that supports the [Keyboard library].
-The MKR Zero is chosen mostly for its built-in SD card slot and small form factor,
+The BeeZero project is designed for the [Seeeduino XIAO],
+but should work with any Arduino that supports the [Keyboard library].
+A more complete board is the [Arduino MKR Zero],
+which has a built-in SD card slot and small form factor,
 requiring very minimal work to set everything up.
 
 The default setup requires the following components:
 
-- [Arduino MKR Zero]
+- An Arduino board with SD card slot
 - A single pole double throw on-off-on (SPDT) switch
 
 An SPDT switch is a switch that can switch between three states.
@@ -66,6 +67,8 @@ Otherwise, if an error occurred, it will blink based on the type of error.
 | 3                | A payload script error occurred.      | Check if the script is valid.                                                     |
 
 [Hak5 USB Rubber Ducky]: https://docs.hak5.org/hak5-usb-rubber-ducky
+
+[Seeeduino XIAO]: https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html
 
 [Arduino MKR Zero]: https://docs.arduino.cc/hardware/mkr-zero
 

@@ -61,12 +61,12 @@ bool commandWriteLn(const String &input) {
 }
 
 const std::map<String, std::function<bool(String)> > commands = {
-    {"delay", commandDelay},
-    {"hold", commandHold},
-    {"press", commandPress},
-    {"release", commandRelease},
-    {"write", commandWrite},
-    {"writeln", commandWriteLn},
+        {"delay",   commandDelay},
+        {"hold",    commandHold},
+        {"press",   commandPress},
+        {"release", commandRelease},
+        {"led",     commandWrite},
+        {"writeln", commandWriteLn},
 };
 
 std::function<bool(String)> getCommand(const String &name) {
