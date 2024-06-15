@@ -65,7 +65,7 @@ const std::map<String, std::function<bool(String)> > commands = {
         {"hold",    commandHold},
         {"press",   commandPress},
         {"release", commandRelease},
-        {"led",     commandWrite},
+        {"write",   commandWrite},
         {"writeln", commandWriteLn},
 };
 
