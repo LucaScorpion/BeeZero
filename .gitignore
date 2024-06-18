@@ -3,3 +3,7 @@
 
 # IDEs
 .idea/
+
+# Build output
+build/
+cmake-build-debug/
